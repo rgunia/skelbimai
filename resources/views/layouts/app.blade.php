@@ -1,3 +1,6 @@
+<?php
+$categories = \App\Category::all();
+?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -7,7 +10,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Skelbimai</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -23,9 +26,28 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    Skelbimai
                 </a>
+                <a class="btn btn-secondary mr-2" href="{{ route('advert.create') }}">
+                    Įkelti Skelbima
+                </a>
+{{--                dropdown start--}}
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kategorijos
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        @foreach($categories->where('parent_id', 0) as $category)
+                            <a class="dropdown-item font-weight-bold" href="{{route('category.show', $category->slug)}}" class="font-weight-bold">{{$category->title}}</a>
+                            @foreach($category->subCategory as $sub)
+                                <a class="dropdown-item" href="{{route('category.show', $sub->slug)}}">{{$sub->title}}</a>
+                            @endforeach
+                        @endforeach
+                    </div>
+                </div>
+                {{--                dropdown finish--}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -36,9 +58,15 @@
 
                     </ul>
 
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        @role('admin')
+                        <a class="btn btn-secondary" href="{{ route('admin.index') }}">
+                            Admin Panel
+                        </a>
+                        @endrole
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>

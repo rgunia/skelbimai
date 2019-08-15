@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Advert;
 use App\Category;
+use App\City;
+use App\Comments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AdvertController extends Controller
@@ -26,9 +29,16 @@ class AdvertController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $data['categories']= $categories;
-        return view('adverts.create', $data);
+        $user = Auth::user();
+        if($user && ($user->hasRole('admin') || $user->hasRole('client'))) {
+
+            $categories = Category::where('active', '=', 1)->get();
+            $data['categories'] = $categories;
+            $data['cities'] = City::all();
+            return view('adverts.create', $data);
+        }else{
+            return 'no permission';
+        }
     }
 
     /**
@@ -41,13 +51,23 @@ class AdvertController extends Controller
     {
         $advert = new Advert();
         $advert->title = $request->title;
-        $advert->content = $request->contentas;
+        $advert->content = $request->content_text;
         $advert->image = $request->image;
         $advert->price = $request->price;
-        $advert->user_id = $request->user_id;
+        $advert->user_id = 1;
         $advert->category_id = $request->category_id;
         $advert->city_id = $request->city_id;
-        $advert->slug = Str::slug($request->title);
+        $slug = Str::slug($request->title);
+        if (Advert::where('slug', $slug)->first()){
+            $lastRecord = Advert::all()->last();
+            $lastRecordId = $lastRecord->id;
+            $advertId= $lastRecordId + 1;
+            $advert->slug = Str::slug($request->title)."-".$advertId;
+        }  // It exists
+        else{
+            $advert->slug = Str::slug($request->title);
+        }
+
         $advert->save();
     }
 
@@ -57,9 +77,14 @@ class AdvertController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Advert $advert)
     {
-        //
+        if($advert->active == 1) {
+            $comments = Comments::where('advert_id', '=', $advert->id)->where('active', '=', 1)->get();
+            $data['comments'] = $comments;
+            $data['advert'] = $advert;
+            return view('adverts.single', $data);
+        }
     }
 
     /**
@@ -70,7 +95,17 @@ class AdvertController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Auth::user();
+        if($user && ($user->hasRole('admin') || $user->hasRole('client'))) {
+            $advert = Advert::find($id);
+            $categories = Category::where('active', '=', 1)->get();
+            $data['advert'] = $advert;
+            $data['categories'] = $categories;
+            $data['cities'] = City::all();
+            return view('adverts.edit', $data);
+        }else{
+            return 'no permision';
+        }
     }
 
     /**
@@ -82,7 +117,26 @@ class AdvertController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $advert = Advert::find($id);
+        $advert->title = $request->title;
+        $advert->content = $request->content_text;
+        $advert->image = $request->image;
+        $advert->price = $request->price;
+        $advert->user_id = 1;
+        $advert->category_id = $request->category_id;
+        $advert->city_id = 1;
+        $slug = Str::slug($request->title);
+        if (Advert::where('slug', $slug)->first()){  // It exists
+            $lastRecord = Advert::all()->last();
+            $lastRecordId = $lastRecord->id;
+            $advertId= $lastRecordId + 1;
+            $advert->slug = Str::slug($request->title)."-".$advertId;
+        }
+        else{
+            $advert->slug = Str::slug($request->title);
+        }
+
+        $advert->save();
     }
 
     /**
@@ -93,6 +147,8 @@ class AdvertController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $advert = Advert::find($id);
+        $advert->active = 1;
+        $advert->save();
     }
 }

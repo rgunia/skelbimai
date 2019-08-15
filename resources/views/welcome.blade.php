@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Tomas Geriausias!
+                    Patikimas Skelbimu Portalas
                 </div>
 
                 <div class="links">

@@ -18,4 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::resource('advert', 'AdvertController');
+Route::resource('home', 'HomeController');
 Route::resource('category', 'CategoryController');
+Route::resource('city', 'CityController');
+Route::resource('comment', 'CommentsController');
+Route::resource('admin', 'AdminController');

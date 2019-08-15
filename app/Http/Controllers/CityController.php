@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class CityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +17,9 @@ class CategoryController extends Controller
     {
         $user = Auth::user();
         if($user && ($user->hasRole('admin'))) {
-            $data['categories'] = Category::all();
-            return view('category.all', $data);
+
+        $data['cities']= City::all();
+        return view('city.all', $data);
         }else{
             return 'no permission';
         }
@@ -32,9 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $data['categories'] = $categories;
-        return view('category.create', $data);
+        return view('city.create');
     }
 
     /**
@@ -45,12 +43,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category();
-        $category->title = $request->title;
-        $category->slug = Str::slug($request->title);
-        $category->parent_id = $request->parent_id;
-        $category->save();
-        return redirect()->route('category.create');
+        $city = new City();
+        $city->name = $request->city;
+        $city->save();
     }
 
     /**
@@ -59,17 +54,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-//        dd($slug);
-        $category = Category::where('slug', $slug)->first();
-        if($category->parent_id != 0) {
-            $data['category'] = $category;
-        }else{
-            $data['category'] = $category;
-//            dd($data);
-        }
-        return view('category.single', $data);
+        //
     }
 
     /**
@@ -80,11 +67,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category= Category::find($id);
-        $data['category']= $category;
-        $categories = Category::where('parent_id', '=', 0)->get();
-        $data['categories'] = $categories;
-        return view('category.edit', $data);
+        $data['city'] = City::find($id);
+        return view('city.edit', $data);
     }
 
     /**
@@ -96,11 +80,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
-        $category->title = $request->title;
-        $category->slug = Str::slug($request->title);
-        $category->parent_id = $request->parent_id;
-        $category->save();
+        $city = City::find($id);
+        $city->name = $request->city;
+        $city->save();
     }
 
     /**
@@ -111,8 +93,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        $category->active = 1;
-        $category->save();
+        //
     }
 }
