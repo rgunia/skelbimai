@@ -61,6 +61,18 @@ $categories = \App\Category::all();
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+                        <!-- Search block -->
+
+                        <form class="form-inline mr-auto" method="post" action="{{route('search')}}">
+                            <div class="md-form my-0">
+                                @csrf
+                                @method('GET')
+                                <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
+                                <button type="submit" class="btn btn-primary btn-sm mr-3">Search</button>
+                            </div>
+                        </form>
+
                         <!-- Authentication Links -->
                         @role('admin')
                         <a class="btn btn-secondary" href="{{ route('admin.index') }}">

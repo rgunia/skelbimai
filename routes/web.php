@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/search',['uses' => 'SearchController@search','as' => 'search']);
 
 Auth::routes();
 
