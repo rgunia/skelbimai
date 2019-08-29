@@ -11,7 +11,9 @@
             <a class="btn btn-secondary" href="{{ route('category.index') }}">
                 Category
             </a>
-
+            <a class="btn btn-secondary" href="{{ route('admin.Messages') }}">
+                Messages
+            </a>
         </div>
 
     </div>

@@ -22,6 +22,11 @@ class AdminController extends Controller
         }
     }
 
+
+    public function adminMessages(){
+        return view('Admin.messages');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -6,6 +6,7 @@ use App\Advert;
 use App\Category;
 use App\City;
 use App\Comments;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -54,7 +55,7 @@ class AdvertController extends Controller
         $advert->content = $request->content_text;
         $advert->image = $request->image;
         $advert->price = $request->price;
-        $advert->user_id = 1;
+        $advert->user_id = Auth::user()->id;
         $advert->category_id = $request->category_id;
         $advert->city_id = $request->city_id;
         $slug = Str::slug($request->title);
@@ -122,7 +123,7 @@ class AdvertController extends Controller
         $advert->content = $request->content_text;
         $advert->image = $request->image;
         $advert->price = $request->price;
-        $advert->user_id = 1;
+        $advert->user_id = Auth::user()->id;
         $advert->category_id = $request->category_id;
         $advert->city_id = 1;
         $slug = Str::slug($request->title);
