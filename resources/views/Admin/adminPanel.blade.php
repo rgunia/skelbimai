@@ -14,6 +14,12 @@
             <a class="btn btn-secondary" href="{{ route('admin.Messages') }}">
                 Messages
             </a>
+            <a class="btn btn-secondary" href="{{ route('attributeset.index') }}">
+                Attribute Sets
+            </a>
+            <a class="btn btn-secondary" href="{{ route('attribute.index') }}">
+                Attributes
+            </a>
         </div>
 
     </div>

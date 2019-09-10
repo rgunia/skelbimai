@@ -36,6 +36,18 @@ Route::get('/messagetype/{id}/edit', 'MessageTypeController@edit')->name('messag
 Route::post('/messagetype/{id}/update', 'MessageTypeController@update')->name('messagetype.update');
 Route::post('/messagetype/{id}/destroy', 'MessageTypeController@destroy')->name('messagetype.destroy');
 
+Route::get('/attributeset', 'AttributesController@setIndex')->name('attributeset.index');
+Route::get('/attribute', 'AttributesController@index')->name('attribute.index');
+Route::get('/attributeset/attributesetcreate', 'AttributesController@attributeSetCreate')->name('attributeset.create');
+Route::post('/attributeset/attributesetstore', 'AttributesController@attributeSetStore')->name('attributeset.store');
+Route::get('/attributeset/{id}/attributesetedit', 'AttributesController@attributeSetEdit')->name('attributeset.edit');
+Route::post('/attributeset/{id}/attributesetupdate', 'AttributesController@attributeSetUpdate')->name('attributeset.update');
+Route::post('/attributeset/{id}/attributesetdelete', 'AttributesController@attributeSetDelete')->name('attributeset.delete');
+Route::get('/attribute/attributecreate', 'AttributesController@attributeCreate')->name('attribute.create');
+Route::post('/attribute/attributestore', 'AttributesController@attributeStore')->name('attribute.store');
+Route::get('/attribute/{id}/attributeedit', 'AttributesController@attributeEdit')->name('attribute.edit');
+Route::post('/attribute/{id}/attributeupdate', 'AttributesController@attributeUpdate')->name('attribute.update');
+Route::post('/attribute/{id}/attributedelete', 'AttributesController@attributeDelete')->name('attribute.delete');
 
 Auth::routes();
 //resourced controllers routes

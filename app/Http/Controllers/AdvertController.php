@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Advert;
+use App\atribute_set;
 use App\Category;
 use App\City;
 use App\Comments;
@@ -10,6 +11,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AdvertController extends Controller
 {
@@ -21,6 +23,8 @@ class AdvertController extends Controller
     public function index()
     {
         return view('adverts.index');
+
+
     }
 
     /**
@@ -58,7 +62,12 @@ class AdvertController extends Controller
         $advert->user_id = Auth::user()->id;
         $advert->category_id = $request->category_id;
         $advert->city_id = $request->city_id;
+
+        $date = Carbon::now()->addMonths(3)->toDateTimeString(); //advert expiration date and time
+        $advert->expiration_date = $date;
+
         $slug = Str::slug($request->title);
+
         if (Advert::where('slug', $slug)->first()){
             $lastRecord = Advert::all()->last();
             $lastRecordId = $lastRecord->id;
@@ -103,6 +112,8 @@ class AdvertController extends Controller
             $data['advert'] = $advert;
             $data['categories'] = $categories;
             $data['cities'] = City::all();
+            $data['attributes_sets'] = atribute_set::all();
+            $data['attributes'] = $advert->attributeSet->realations;
             return view('adverts.edit', $data);
         }else{
             return 'no permision';
@@ -126,6 +137,7 @@ class AdvertController extends Controller
         $advert->user_id = Auth::user()->id;
         $advert->category_id = $request->category_id;
         $advert->city_id = 1;
+        $advert->atribute_set_id = $request->attribute_set;
         $slug = Str::slug($request->title);
         if (Advert::where('slug', $slug)->first()){  // It exists
             $lastRecord = Advert::all()->last();
@@ -138,6 +150,16 @@ class AdvertController extends Controller
         }
 
         $advert->save();
+        return redirect()->route('advert.edit', $advert->id);
+    }
+
+    public function advertExpiration(){ //scheduled function
+        $adverts= Advert::where('active', 1)->get();
+        foreach ($adverts as $advert){
+            if($advert->expiration_date <= Carbon::now()){
+                $this->destroy($advert->id);
+            }
+        }
     }
 
     /**
@@ -149,7 +171,7 @@ class AdvertController extends Controller
     public function destroy($id)
     {
         $advert = Advert::find($id);
-        $advert->active = 1;
+        $advert->active = 0;
         $advert->save();
     }
 }

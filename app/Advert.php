@@ -20,4 +20,7 @@ class Advert extends Model
     public function city(){
         return $this->hasOne('App\City', 'id', 'city_id');
     }
+    public function attributeSet(){
+        return $this->hasOne('App\atribute_set', 'id', 'atribute_set_id');
+    }
 }

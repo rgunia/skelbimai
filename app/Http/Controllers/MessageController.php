@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Advert;
 use App\Message;
 use App\MessageType;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,9 +21,37 @@ class MessageController extends Controller
     }
     public function showOne($id){
         $message = Message::where('id', $id)->first();
+        if($message->status == 0){
+            $message->status = 1;
+            $message->seen = Carbon::now();
+            $message->save();
+        }
         $data['message'] = $message;
         return view('message.showOne', $data);
     }
+    public function advertExpirationMessage(){ //scheduled function
+        $adverts= Advert::where('active', 1)->get();
+        foreach ($adverts as $advert){
+            $expDate = $advert->expiration_date;
+            $messageText = '';
+
+            if ($expDate == Carbon::now()->subDay()->toDateString()) {
+                $messageText = 'Hello, Your Advert:'.'"'.$advert->title.'"'.' will expire after a Day ('.$expDate.')!';
+            }elseif($expDate == Carbon::now()->subWeek()->toDateString()) {
+                $messageText = 'Hello, Your Advert:'.'"'.$advert->title.'"'.' will expire after a Week ('.$expDate.')!';
+            }
+            $message = new Message;
+            $message->r_id = $advert->user_id;
+            $message->subject = 'Your Advert will expire soon!';
+            $message->message =  $messageText;
+            $message->sender_id = 1;
+            $message->type = 1;
+            $message->status = 0;
+            $message->state = 1;
+            $message->save();
+        }
+    }
+
 
     public function showSendsAdmin(){
         $messages = Message::where('state', '1')->get();

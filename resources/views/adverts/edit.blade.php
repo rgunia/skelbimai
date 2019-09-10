@@ -30,6 +30,16 @@
                                     <option value="{{$city->id}}" @if($city->id == $advert->city_id) selected @endif>{{$city->name}}</option>
                                 @endforeach
                             </select>
+                            <select name="attribute_set" class="form-control mb-2 mt-2">
+                                <option></option>Attribute</option>
+                                @foreach($attributes_sets as $attribute_set)
+                                    <option value="{{$attribute_set->id}}" @if($attribute_set->id == $advert->atribute_set_id) selected @endif>{{$attribute_set->name}}</option>
+                                @endforeach
+                            </select>
+
+                                @foreach($attributes as $attribute)
+                                    <input type="text" name="{{$attribute->attributes->name}}" placeholder="{{strtoupper($attribute->attributes->name)}}">
+                                @endforeach
                             <button type="submit" class="btn btn-light">Submit</button>
                         </form>
                     </div>

@@ -23,7 +23,7 @@
                     <a role="button" class="collapsed" data-toggle="collapse" href="#collapse{{$advert->id}}" aria-expanded="false" aria-controls="collapseExample"></a>
                 </div>
                 <h5>{{$advert->price}}€ </h5>
-                <h5>{{$advert->created_at->diffForHumans()}}</h5>
+                <h5>Last Update: {{$advert->updated_at->diffForHumans()}}</h5>
                 <a class="btn btn-primary" href="{{route('advert.show', $advert->slug)}}">View Advert</a>
             </div>
         </div>
