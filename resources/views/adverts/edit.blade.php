@@ -30,6 +30,9 @@
                                     <option value="{{$city->id}}" @if($city->id == $advert->city_id) selected @endif>{{$city->name}}</option>
                                 @endforeach
                             </select>
+
+                            <hr>
+
                             <select name="attribute_set" class="form-control mb-2 mt-2">
                                 <option></option>Attribute</option>
                                 @foreach($attributes_sets as $attribute_set)
@@ -38,8 +41,11 @@
                             </select>
 
                                 @foreach($attributes as $attribute)
-                                    <input type="text" name="{{$attribute->attributes->name}}" placeholder="{{strtoupper($attribute->attributes->name)}}">
+                                    <input type="{{$attribute->attributes->type->name}}" name="super_attribute_{{$attribute->attributes->name}}" placeholder="{{$attribute->attributes->lable}}">
                                 @endforeach
+
+                            <hr>
+
                             <button type="submit" class="btn btn-light">Submit</button>
                         </form>
                     </div>

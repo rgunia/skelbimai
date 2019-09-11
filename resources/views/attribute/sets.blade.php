@@ -21,7 +21,7 @@
                         <th scope="row">{{$attribute_set->id}}</th>
                         <td>{{$attribute_set->name}}</td>
                         <td><form class="d-inline" action="{{route('attributeset.edit', $attribute_set->id)}}"><button type="submit" class="d-inline btn btn-primary btn-sm">Edit</button> </form>
-                            <form class="d-inline" action=""> @method('DELETE') <button type="submit" class="d-inline btn btn-primary btn-sm">Delete</button> </form>
+                            <form class="d-inline" action="{{route('attributeset.delete', $attribute_set->id)}}"> @method('DELETE') <button type="submit" class="d-inline btn btn-primary btn-sm">Delete</button> </form>
                         </td>
                     </tr>
                     @endforeach

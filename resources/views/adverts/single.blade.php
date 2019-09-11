@@ -7,6 +7,9 @@
                 <div class="card">
                     <div class="card-header">{{$advert->category->title}}</div>
                     <div class="card-body">
+                        @if($advert->user_id == Auth::user()->id)
+                        <a href="{{route('advert.edit', $advert->id)}}"  class="btn btn-primary btn-lg btn-block mb-2"> Edit Advert </a>
+                        @endif
                         <img src="{{$advert->image}}" class="rounded mx-auto d-block mh-100 mw-100" alt="image">
                         <div class="d-flex bd-highlight card-header">
                             <div class="p-2 w-100 bd-highlight">

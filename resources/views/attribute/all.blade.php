@@ -11,7 +11,8 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Attribute Set</th>
+                            <th scope="col">Attribute</th>
+                            <th scope="col">Lable</th>
                             <th scope="col">Actions</th>
                         </tr>
                         </thead>
@@ -20,8 +21,9 @@
                             <tr>
                                 <th scope="row">{{$attribute->id}}</th>
                                 <td>{{$attribute->name}}</td>
+                                <td>{{$attribute->lable}}</td>
                                 <td><form class="d-inline" action="{{route('attribute.edit', $attribute->id)}}"><button type="submit" class="d-inline btn btn-primary btn-sm">Edit</button> </form>
-                                    <form class="d-inline" action=""> @method('DELETE') <button type="submit" class="d-inline btn btn-primary btn-sm">Delete</button> </form>
+                                    <form class="d-inline" action="{{route('attribute.delete', $attribute->id)}}"> @method('DELETE') <button type="submit" class="d-inline btn btn-primary btn-sm">Delete</button> </form>
                                 </td>
                             </tr>
                         @endforeach

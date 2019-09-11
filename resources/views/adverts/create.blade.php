@@ -29,6 +29,7 @@
                                     <option value="{{$city->id}}">{{$city->name}}</option>
                                 @endforeach
                             </select>
+
                             <button type="submit" class="btn btn-light">Submit</button>
                         </form>
                     </div>

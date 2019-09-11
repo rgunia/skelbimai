@@ -97,7 +97,9 @@ class AttributesController extends Controller
     public function attributeSetDelete($id){
         atribute_set::where('id', $id)->delete();
         atribute_set_realations::where('attribute_set_id', $id)->delete();
+        return redirect()->route('attributeset.index');
     }
+
 
 
     public function attributeCreate(){
@@ -115,6 +117,7 @@ class AttributesController extends Controller
             $attribute = new atribute();
             $attribute->name = $request->attribute;
             $attribute->type_id = $request->type;
+            $attribute->lable = $request->lable;
             $attribute->save();
         }else{
             return 'no permission';
@@ -136,6 +139,7 @@ class AttributesController extends Controller
             $attribute = atribute::where('id', $id)->first();
             $attribute->name = $request->attribute;
             $attribute->type_id = $request->type;
+            $attribute->lable = $request->lable;
             $attribute->save();
             return redirect()->route('attribute.edit', $id);
         }else{
@@ -145,5 +149,6 @@ class AttributesController extends Controller
 
     public function attributeDelete($id){
         atribute::where('id', $id)->delete();
+        return redirect()->route('attribute.index');
     }
 }

@@ -10,6 +10,7 @@
                         <form action="{{route('attribute.store')}}" method="post">
                             @csrf
                             <input  type="text" name="attribute" placeholder="Attribute" class="form-control" >
+                            <input  type="text" name="lable" placeholder="Lable" class="form-control" >
                             <select name="type" class="form-control" id="type">
                                 <option>Type</option>
                                 @foreach($types as $type)

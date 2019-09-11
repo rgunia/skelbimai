@@ -10,6 +10,7 @@
                         <form action="{{route('attribute.update', $oldAttribute->id)}}" method="post">
                             @csrf
                             <input  type="text" name="attribute" placeholder="Attribute" value="{{$oldAttribute->name}}" class="form-control" >
+                            <input  type="text" name="lable" placeholder="Lable" value="{{$oldAttribute->lable}}" class="form-control" >
                             <select name="type" class="form-control" id="type">
                                 <option>Type</option>
                                 @foreach($types as $type)
