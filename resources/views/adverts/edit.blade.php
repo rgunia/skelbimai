@@ -34,14 +34,18 @@
                             <hr>
 
                             <select name="attribute_set" class="form-control mb-2 mt-2">
-                                <option></option>Attribute</option>
+                                <option></option>Attribute Set</option>
                                 @foreach($attributes_sets as $attribute_set)
                                     <option value="{{$attribute_set->id}}" @if($attribute_set->id == $advert->atribute_set_id) selected @endif>{{$attribute_set->name}}</option>
                                 @endforeach
                             </select>
-
                                 @foreach($attributes as $attribute)
-                                    <input type="{{$attribute->attributes->type->name}}" name="super_attribute_{{$attribute->attributes->name}}" placeholder="{{$attribute->attributes->lable}}">
+                                    @if($attribute->attributes->type->name == 'checkbox')
+                                        <label>{{$attribute->attributes->lable}}</label>
+                                    @endif
+                                    <input type="{{$attribute->attributes->type->name}}" class="d-block mb-2" name="super_attribute_{{$attribute->attributes->name}}"
+                                        @if($attribute->attributes->type->name == 'checkbox')value="1" @endif
+                                           placeholder="{{$attribute->attributes->lable}}">
                                 @endforeach
 
                             <hr>

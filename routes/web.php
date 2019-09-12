@@ -42,7 +42,7 @@ Route::get('/attributeset/attributesetcreate', 'AttributesController@attributeSe
 Route::post('/attributeset/attributesetstore', 'AttributesController@attributeSetStore')->name('attributeset.store');
 Route::get('/attributeset/{id}/attributesetedit', 'AttributesController@attributeSetEdit')->name('attributeset.edit');
 Route::post('/attributeset/{id}/attributesetupdate', 'AttributesController@attributeSetUpdate')->name('attributeset.update');
-Route::post('/attributeset/{id}/attributesetdelete', 'AttributesController@attributeSetDelete')->name('attributeset.delete');
+Route::delete('/attributeset/{id}/attributesetdelete', 'AttributesController@attributeSetDelete')->name('attributeset.delete');
 Route::get('/attribute/attributecreate', 'AttributesController@attributeCreate')->name('attribute.create');
 Route::post('/attribute/attributestore', 'AttributesController@attributeStore')->name('attribute.store');
 Route::get('/attribute/{id}/attributeedit', 'AttributesController@attributeEdit')->name('attribute.edit');

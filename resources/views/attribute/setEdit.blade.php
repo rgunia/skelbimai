@@ -5,11 +5,11 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Create Attribute Set</div>
+                    <div class="card-header">Edit Attribute Set</div>
 
                     <div class="card-body">
                         <a href="{{route('attribute.create')}}"  class="btn btn-primary btn-lg btn-block">Add new Attribute</a>
-                        <form action="{{route('attributeset.update')}}" method="post">
+                        <form action="{{route('attributeset.update', $attributeSet->id)}}" method="post">
                             @csrf
                             <input  type="text" name="set" placeholder="Attribute Set" class="form-control" value="{{$attributeSet->name}}" >
                             @foreach($attributes as $attribute)

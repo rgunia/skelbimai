@@ -28,6 +28,24 @@
                     </div>
                 </div>
 
+        {{--attributes--}}
+                <hr>
+                @foreach($attributesValue as $attributeValue)
+
+                    <div>
+                        {{$attributeValue->attributeOfValue->lable}}:
+                        <?php if($attributeValue->attributeOfValue->type_id == 5 && $attributeValue->value == 1){
+                            echo 'Yra';
+                        }elseif($attributeValue->attributeOfValue->type_id == 5 && $attributeValue->value == 0){
+                            echo 'Nėra';
+                        }else{
+                            echo $attributeValue->value;
+                        } ?>
+                    </div>
+                @endforeach
+
+                <hr>
+
 
                     <div class="card-body  mt-2">
                         <div class="card-header">Comments</div>
@@ -46,7 +64,7 @@
                             <div class="card-header">{{$comment->user->name}}
 
                                 @hasanyrole('client|admin')
-                                <form class="d-flex bd-highlight" action="{{route('comment.destroy',  $comment->id)}}" method="post">
+                                <form class="d-inline bd-highlight float-sm-right" action="{{route('comment.destroy',  $comment->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-light">Delete Comment</button>

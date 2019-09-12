@@ -113,9 +113,7 @@ $categories = \App\Category::all();
                                 </div>
                             </li>
                             <li>
-                                <a href="http://gunia.ga/laravel/projectlaravel/public/message">
-                                    <span>message</span>
-                                </a>
+                                <a href="http://gunia.ga/laravel/projectlaravel/public/message" role="button" class="btn btn-primary btn-sm btn-block mt-1">Messages</a>
                             </li>
                         @endguest
                     </ul>

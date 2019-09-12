@@ -101,6 +101,7 @@ class AdvertController extends Controller
             $comments = Comments::where('advert_id', '=', $advert->id)->where('active', '=', 1)->get();
             $data['comments'] = $comments;
             $data['advert'] = $advert;
+            $data['attributesValue'] = atribute_values::where('advert_id', $advert->id)->get();
             return view('adverts.single', $data);
         }
     }
@@ -124,7 +125,7 @@ class AdvertController extends Controller
                 $data['categories'] = $categories;
                 $data['cities'] = City::all();
                 $data['attributes_sets'] = atribute_set::all();
-                $data['attributes'] = $advert->attributeSet->realations;
+                $data['attributes'] = $advert->attributeSet->relations;
 
                 return view('adverts.edit', $data);
             }else{
@@ -147,7 +148,6 @@ class AdvertController extends Controller
         $user = Auth::user();
         if($user && ($user->hasRole('admin') || $user->hasRole('client'))) {
             $advert = Advert::find($id);
-
             if($user->id == $advert->user_id) {
 
                 $advert->title = $request->title;
@@ -173,11 +173,13 @@ class AdvertController extends Controller
                 $allKeys = $request->except('_token');
                 $attributes = [];
                 foreach ($allKeys as $key => $single) {
-                    if (strpos($key, 'super_attribute_') == !false) {
+                    if (strpos($key, 'super_attribute_') !== false) {
+
                         $attributeName = str_replace('super_attribute_', '', $key);
-                        $attributes [$attributeName] = $single;
+                        $attributes[$attributeName] = $single;
                     }
                 }
+
                 foreach ($attributes as $name => $value) {
                     $attributeObject = atribute::where('name', $name)->first();
                     $oldValue = atribute_values::where('attribute_id', $attributeObject->id)->where('advert_id', $id)->first();

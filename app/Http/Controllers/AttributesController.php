@@ -50,8 +50,8 @@ class AttributesController extends Controller
             $atributeSet->save();
             $atributeSetNew = atribute_set::where('name', $request->set)->first();
             $attributeArray =  $request->input('attributes');
-            $atributeSetRealations = new atribute_set_realations();
             foreach ($attributeArray as $attributeId){
+                $atributeSetRealations = new atribute_set_realations();
                 $atributeSetRealations->attribute_id = $attributeId;
                 $atributeSetRealations->attribute_set_id = $atributeSetNew->id;
                 $atributeSetRealations->save();
@@ -84,8 +84,8 @@ class AttributesController extends Controller
             atribute_set_realations::where('attribute_set_id', $id)->delete();
 
             $attributeArray =  $request->input('attributes');
-            $atributeSetRealations = new atribute_set_realations();
             foreach ($attributeArray as $attributeId){
+                $atributeSetRealations = new atribute_set_realations();
                 $atributeSetRealations->attribute_id = $attributeId;
                 $atributeSetRealations->attribute_set_id = $id;
                 $atributeSetRealations->save();
