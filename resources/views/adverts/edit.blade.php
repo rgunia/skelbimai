@@ -38,6 +38,7 @@
                                 @foreach($attributes_sets as $attribute_set)
                                     <option value="{{$attribute_set->id}}" @if($attribute_set->id == $advert->atribute_set_id) selected @endif>{{$attribute_set->name}}</option>
                                 @endforeach
+                                @if(!empty($attributes))
                             </select>
                                 @foreach($attributes as $attribute)
                                     @if($attribute->attributes->type->name == 'checkbox')
@@ -47,7 +48,7 @@
                                         @if($attribute->attributes->type->name == 'checkbox')value="1" @endif
                                            placeholder="{{$attribute->attributes->lable}}">
                                 @endforeach
-
+                                @endif
                             <hr>
 
                             <button type="submit" class="btn btn-light">Submit</button>

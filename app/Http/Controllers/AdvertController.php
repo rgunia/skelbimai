@@ -125,7 +125,9 @@ class AdvertController extends Controller
                 $data['categories'] = $categories;
                 $data['cities'] = City::all();
                 $data['attributes_sets'] = atribute_set::all();
-                $data['attributes'] = $advert->attributeSet->relations;
+                if(!empty($advert->attributeSet->relations)){
+                    $data['attributes'] = $advert->attributeSet->relations;
+                    }
 
                 return view('adverts.edit', $data);
             }else{

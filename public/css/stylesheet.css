@@ -1,0 +1,23 @@
+.bg {
+       background: linear-gradient(to top, #2980b9, #6dd5fa, #ffffff);
+    min-height: 100vh;
+}
+.comment-bg{
+    background: linear-gradient(to right, #6190e8, #a7bfe8);
+}
+.blue-low-opacty{
+   background: rgba(0,156,203, 0.05);
+}
+.commertial{
+    font-size: 40px;
+    color: red;
+    background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/be02a4e3-e357-4bde-b048-3a8a59e11d49/d55auet-de3b28b9-7cc1-41e5-ad4a-1fff664c68ea.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JlMDJhNGUzLWUzNTctNGJkZS1iMDQ4LTNhOGE1OWUxMWQ0OVwvZDU1YXVldC1kZTNiMjhiOS03Y2MxLTQxZTUtYWQ0YS0xZmZmNjY0YzY4ZWEuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.cnhRcHcLENrQVBEBfG_jHW1wZsf3nCmmF4Y64JLR-uA");
+    background-size: cover;
+    padding-top: 20px;
+    height: 90vh;
+    width: 15%;
+    border: solid 1px #2980b9;
+    position: sticky;
+    text-align: center;
+    top: 5%;
+}

@@ -29,7 +29,7 @@
                 </div>
 
         {{--attributes--}}
-                <hr>
+                <div class="container bg-white rounded mt-1">
                 @foreach($attributesValue as $attributeValue)
 
                     <div>
@@ -43,12 +43,12 @@
                         } ?>
                     </div>
                 @endforeach
-
+                </div>
                 <hr>
 
 
-                    <div class="card-body  mt-2">
-                        <div class="card-header">Comments</div>
+                    <div class="card-body  mt-2 rounded bg-white">
+                        <div class="card-header comment-bg rounded">Comments</div>
                         <div class="card-body">
                             @role('admin')
                           <form class="d-flex bd-highlight" action="{{route('comment.store')}}" method="post">
@@ -59,22 +59,24 @@
                           </form>
                             @endrole
                         </div>
-                        <div class="card-body mt-1">
+                        <div class="card-body mt-1 ">
                             @foreach($comments as $comment)
-                            <div class="card-header">{{$comment->user->name}}
+                            <div class="rounded border border-info mb-1">
+                                <div class="card-header comment-bg rounded" >{{$comment->user->name}}
 
-                                @hasanyrole('client|admin')
-                                <form class="d-inline bd-highlight float-sm-right" action="{{route('comment.destroy',  $comment->id)}}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-light">Delete Comment</button>
-                                </form>
-                                @endhasanyrole
+                                    @hasanyrole('client|admin')
+                                    <form class="d-inline bd-highlight float-sm-right " action="{{route('comment.destroy',  $comment->id)}}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-light btn-sm">Delete Comment</button>
+                                    </form>
+                                    @endhasanyrole
 
-                            </div>
-                                <div class="card-body">
+                                </div>
+                                <div class="card-body blue-low-opacty">
                                     {{$comment->comment}}
                                 </div>
+                            </div>
                             @endforeach
                             </div>
                         </div>

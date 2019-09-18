@@ -58,3 +58,7 @@ Route::resource('city', 'CityController');
 Route::resource('comment', 'CommentsController');
 Route::resource('admin', 'AdminController');
 Route::resource('user', 'UserController');
+
+//api
+
+//Route::get('/api/subscribers', 'Api\SubscribersController@index');
