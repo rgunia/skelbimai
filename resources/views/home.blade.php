@@ -2,6 +2,8 @@
 <?php use Carbon\Carbon; ?>
 @section('content')
 
+
+
     <div class="d-flex justify-content-around">
 
         <div class="container">
@@ -12,80 +14,63 @@
 
             <hr class="border-info">
 
+
+{{--            bootstrap--}}
+
+            <div class="container ">
+                <div class="row ">
+
             @foreach($adverts as $advert)
-            <div class="row mb-3 rounded border border-info pt-2 pb-2 bg-white">
-                <div class="col-md-4">
-                    <a href="#">
-                        <img class="img-fluid rounded mb-3 mb-md-0 mw-100" style="height: 200px;" src="{{$advert->image}}" alt="">
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <h3>{{$advert->title}}</h3>
-                    <div id="module" class="container">
-                        <p class="collapse" id="collapse{{$advert->id}}" aria-expanded="false">
-                            {{$advert->content}}
-                        </p>
-                        <a role="button" class="collapsed" data-toggle="collapse" href="#collapse{{$advert->id}}" aria-expanded="false" aria-controls="collapseExample"></a>
+
+                    <div class="col-xs-12 col-sm-4 mt-3">
+                        <div class="card">
+                            <a class="img-card" href="{{route('advert.show', $advert->slug)}}">
+                                <img src="{{$advert->image}}">
+                            </a>
+                            <br />
+                            <div class="card-content p-0 text-center">
+                                <h4 class="card-title">
+                                    <a style="font-size: 15px" href="{{route('advert.show', $advert->slug)}}">
+
+                                        @foreach($advert->attributeValues as $value)
+
+                                           @if($value->attribute_id == 33 || $value->attribute_id == 34)
+                                               {{$value->value}}
+                                           @elseif($value->attribute_id == 35)
+                                                {{$value->value}}m.
+                                            @endif
+
+                                        @endforeach
+
+                                    </a>
+                                </h4>
+                                <div class="" >
+
+                                    @foreach($advert->attributeValues as $value)
+
+                                        @if($value->attribute_id == 37 || $value->attribute_id == 38)
+                                            {{$value->value}},
+                                        @elseif($value->attribute_id == 39)
+                                            {{$value->value}}.
+                                        @endif
+
+                                    @endforeach
+                                    <br>
+                                        Last Update: {{$advert->updated_at->diffForHumans()}}
+                                </div>
+                            </div>
+                            <div class="card-read-more">
+                                <a class="btn btn-link btn-block" href="{{route('advert.show', $advert->slug)}}">
+                                    {{$advert->price}}€
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <h5>{{$advert->price}}€ </h5>
-                    <h5>Last Update: {{$advert->updated_at->diffForHumans()}}</h5>
-                    <a class="btn btn-primary" href="{{route('advert.show', $advert->slug)}}">View Advert</a>
-                </div>
-            </div>
-
-
-    {{--        <hr class="border-info">--}}
-
-
-                <style>
-
-                    #module a.collapsed:after {
-                        content: '+ Show More';
-                    }
-
-                    #module a:not(.collapsed):after {
-                        content: '- Show Less';
-                    }
-
-                    #module #collapse{{$advert->id}}.collapse:not(.show) {
-                        display: block;
-                        /* height = lineheight * no of lines to display */
-                        height: 1.5em;
-                        overflow: hidden;
-                    }
-
-                    #module #collapse{{$advert->id}}.collapsing {
-                        height: 1.5em;
-                    }
-                </style>
-
 
             @endforeach
-            <!-- Pagination -->
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-
+                </div>
+            </div>
+{{--            bootstrap--}}
         </div>
         <div class="commertial rounded mr-3">
             C<br>O<br>M<br>M<br>E<br>R<br>T<br>I<br>A<br>L<br>

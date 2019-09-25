@@ -6,6 +6,8 @@ use App\atribute;
 use App\atribute_set;
 use App\atribute_set_realations;
 use App\atribute_type;
+use App\Category;
+use App\CategoryAttributeSetRealations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +39,7 @@ class AttributesController extends Controller
         $user = Auth::user();
         if($user && ($user->hasRole('admin'))) {
             $data['attributes'] = atribute::all();
+            $data['categories'] = Category::all();
             return view('attribute.setCreate', $data);
         }else{
             return 'no permission';
@@ -45,17 +48,23 @@ class AttributesController extends Controller
     public function attributeSetStore(Request $request){
         $user = Auth::user();
         if($user && ($user->hasRole('admin'))) {
-            $atributeSet= new atribute_set();
-            $atributeSet->name = $request->set;
-            $atributeSet->save();
-            $atributeSetNew = atribute_set::where('name', $request->set)->first();
+            $attributeSet= new atribute_set();
+            $attributeSet->name = $request->set;
+            $attributeSet->save();
+            $attributeSetNew = atribute_set::where('name', $request->set)->first();
             $attributeArray =  $request->input('attributes');
             foreach ($attributeArray as $attributeId){
-                $atributeSetRealations = new atribute_set_realations();
-                $atributeSetRealations->attribute_id = $attributeId;
-                $atributeSetRealations->attribute_set_id = $atributeSetNew->id;
-                $atributeSetRealations->save();
+                $attributeSetRealations = new atribute_set_realations();
+                $attributeSetRealations->attribute_id = $attributeId;
+                $attributeSetRealations->attribute_set_id = $attributeSetNew->id;
+                $attributeSetRealations->save();
             }
+
+            $attributeSetCategory = new CategoryAttributeSetRealations();
+            $attributeSetCategory -> category_id = $request->category_id;
+            $attributeSetCategory -> attribute_set_id = $attributeSetNew->id;
+            $attributeSetCategory -> save();
+
         }else{
             return 'no permission';
         }
@@ -67,6 +76,8 @@ class AttributesController extends Controller
             $Set = atribute_set::where('id', $id)->first();
             $data['attributes'] = atribute::all();
 
+            $categories = Category::where('active', 1)->get();
+            $data['categories'] = $categories;
             $data['attributeSet'] = atribute_set::where('id', $id)->first();
             $data['oldAttributes'] = atribute_set_realations::where('attribute_set_id', $Set->id)->get();
             return view('attribute.setEdit', $data);
@@ -90,6 +101,11 @@ class AttributesController extends Controller
                 $atributeSetRealations->attribute_set_id = $id;
                 $atributeSetRealations->save();
             }
+
+            $oldCattegoryAttributeSetRealation = CategoryAttributeSetRealations::where('attribute_set_id', $atributeSet->id)->first();
+            $oldCattegoryAttributeSetRealation->category_id = $request->category_id;
+            $oldCattegoryAttributeSetRealation-> save();
+
         }else{
             return 'no permission';
         }

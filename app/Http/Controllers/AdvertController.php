@@ -6,10 +6,15 @@ use App\Advert;
 use App\atribute;
 use App\atribute_set;
 use App\atribute_values;
+use App\CarMake;
+use App\CarModel;
 use App\Category;
+use App\CategoryAttributeSetRealations;
 use App\City;
 use App\Comments;
+use App\Profile;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -39,10 +44,34 @@ class AdvertController extends Controller
         $user = Auth::user();
         if($user && ($user->hasRole('admin') || $user->hasRole('client'))) {
 
-            $categories = Category::where('active', '=', 1)->get();
+            $categories = Category::where('active', 1)->get();
             $data['categories'] = $categories;
-            $data['cities'] = City::all();
             return view('adverts.create', $data);
+        }else{
+            return 'Log in to create advert';
+        }
+    }
+
+    public function createStepTwo(Request $request)
+    {
+        $user = Auth::user();
+        if($user && ($user->hasRole('admin') || $user->hasRole('client'))) {
+
+            $id = $request->category_id;
+
+            $category = Category::where('id', $id)->first();
+            $data['category'] = $category;
+            $data['cities'] = City::all();
+
+            $categoryAttributeSetRelations = CategoryAttributeSetRealations::where('category_id', $id)->get();
+            foreach ($categoryAttributeSetRelations as $categoryAttributeSetRelation){
+                $attributeSets= atribute_set::where('id', $categoryAttributeSetRelation->attribute_set_id)->get();
+                foreach ($attributeSets as $attributeSet) {
+                    $data['attributes'] = $attributeSet->relations;
+                }
+            }
+
+            return view('adverts.createStepTwo', $data);
         }else{
             return 'Log in to create advert';
         }
@@ -84,6 +113,37 @@ class AdvertController extends Controller
 
             $advert->save();
 
+            //attributes
+
+            $allKeys = $request->except('_token');
+            $attributes = [];
+            foreach ($allKeys as $key => $single) {
+                if (strpos($key, 'super_attribute_') !== false) {
+
+                    $attributeName = str_replace('super_attribute_', '', $key);
+                    $attributes[$attributeName] = $single;
+                }
+            }
+
+            foreach ($attributes as $name => $value) {
+                $attributeObject = atribute::where('name', $name)->first();
+                    $newValue = new atribute_values();
+                    $newValue->attribute_id = $attributeObject->id;
+
+                    $newAdvert= Advert::where('slug', $advert->slug)->first();
+                    $newValue->advert_id = $newAdvert->id;
+                    if($attributeObject->id == 33){
+                        $carMake = CarMake::where('id', $value)->first();
+                        $newValue->value = $carMake->lable;
+                    }elseif($attributeObject->id == 34) {
+                        $carModel = CarModel::where('id', $value)->first();
+                        $newValue->value = $carModel->lable;
+                    }else{
+                        $newValue->value = $value;
+                    }
+                    $newValue->save();
+            }
+
         }else{
             return 'no permission';
         }
@@ -102,6 +162,8 @@ class AdvertController extends Controller
             $data['comments'] = $comments;
             $data['advert'] = $advert;
             $data['attributesValue'] = atribute_values::where('advert_id', $advert->id)->get();
+            $data['user'] = User::where('id', $advert->user_id)->first();
+            $data['profile'] = Profile::where('user_id', $advert->user_id)->first();
             return view('adverts.single', $data);
         }
     }

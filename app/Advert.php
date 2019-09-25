@@ -23,4 +23,7 @@ class Advert extends Model
     public function attributeSet(){
         return $this->hasOne('App\atribute_set', 'id', 'atribute_set_id');
     }
+    public function attributeValues(){
+        return $this->hasMany('App\atribute_values', 'advert_id', 'id');
+    }
 }

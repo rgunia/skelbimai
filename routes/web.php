@@ -52,6 +52,12 @@ Route::post('/attribute/{id}/attributedelete', 'AttributesController@attributeDe
 Auth::routes();
 //resourced controllers routes
 Route::resource('advert', 'AdvertController');
+Route::post('/advert/createsteptwo', 'AdvertController@createStepTwo')->name('advert.createsteptwo');
+
+//Axaj
+Route::post('/ajaxModelResponse', 'AjaxController@carModelResposne')->name('ajax.carmodelresponse');
+
+
 Route::resource('home', 'HomeController');
 Route::resource('category', 'CategoryController');
 Route::resource('city', 'CityController');
