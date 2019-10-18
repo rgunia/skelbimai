@@ -1,9 +1,9 @@
-@extends('layouts.app')
+
 <?php use Carbon\Carbon; ?>
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
-{{--{{dd($adverts)}}--}}
+
     <div class="d-flex justify-content-around">
 
         <div class="container">
@@ -11,7 +11,7 @@
             <!-- Page Heading -->
             <h1 class="my-3">Skelbimai pagal paieška
             </h1>
-            @foreach($adverts as $advert)
+            <?php $__currentLoopData = $adverts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $advert): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="container py-2">
 
                 <div class="row">
@@ -27,34 +27,36 @@
                                     <div class="media-body order-2 order-lg-1">
                                         <h5 class="mt-0 font-weight-bold mb-2" style="color: #2CB2BC; text-shadow: 0px -5px 35px rgba(255,255,255,0.3);">
 
-                                            @foreach($advert->attributeValues as $value)
+                                            <?php $__currentLoopData = $advert->attributeValues; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                                @if($value->attribute_id == 33 || $value->attribute_id == 34)
-                                                    {{$value->value}}
-                                                @elseif($value->attribute_id == 35)
-                                                    {{$value->value}}m.
-                                                @endif
+                                                <?php if($value->attribute_id == 33 || $value->attribute_id == 34): ?>
+                                                    <?php echo e($value->value); ?>
 
-                                            @endforeach
+                                                <?php elseif($value->attribute_id == 35): ?>
+                                                    <?php echo e($value->value); ?>m.
+                                                <?php endif; ?>
+
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                         </h5>
                                         <p class="font-italic text-muted mb-0 small">
-                                            @foreach($advert->attributeValues as $value)
+                                            <?php $__currentLoopData = $advert->attributeValues; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                                @if($value->attribute_id == 37 || $value->attribute_id == 38)
-                                                    {{$value->value}},
-                                                @elseif($value->attribute_id == 39)
-                                                    {{$value->value}}.
-                                                @endif
+                                                <?php if($value->attribute_id == 37 || $value->attribute_id == 38): ?>
+                                                    <?php echo e($value->value); ?>,
+                                                <?php elseif($value->attribute_id == 39): ?>
+                                                    <?php echo e($value->value); ?>.
+                                                <?php endif; ?>
 
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                            Last Update: {{$advert->updated_at->diffForHumans()}}
+                                            Last Update: <?php echo e($advert->updated_at->diffForHumans()); ?>
+
                                         </p>
                                         <div class="d-flex align-items-center justify-content-between mt-1">
-                                            <h6 class="font-weight-bold my-2" >{{$advert->price}}€</h6>
+                                            <h6 class="font-weight-bold my-2" ><?php echo e($advert->price); ?>€</h6>
                                         </div>
-                                    </div><img src="{{$advert->image}}" style="max-height: 180px;" alt="" width="200" class="ml-lg-5 order-1 order-lg-2">
+                                    </div><img src="<?php echo e($advert->image); ?>" style="max-height: 180px;" alt="" width="200" class="ml-lg-5 order-1 order-lg-2">
                                 </div>
                                 <!-- End -->
                             </li>
@@ -62,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
         <!-- Pagination -->
@@ -95,4 +97,5 @@
         <div class="commertial rounded mr-3">
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/laravel/projectlaravel/resources/views/search/results.blade.php ENDPATH**/ ?>

@@ -12,11 +12,13 @@ use App\Category;
 use App\CategoryAttributeSetRealations;
 use App\City;
 use App\Comments;
+use App\Mail\NewAdvert;
 use App\Profile;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -42,7 +44,7 @@ class AdvertController extends Controller
     public function create()
     {
         $user = Auth::user();
-        if($user && ($user->hasRole('admin') || $user->hasRole('client'))) {
+        if($user) {
 
             $categories = Category::where('active', 1)->get();
             $data['categories'] = $categories;
@@ -143,6 +145,11 @@ class AdvertController extends Controller
                     }
                     $newValue->save();
             }
+
+            $data = [
+                'name' => 'Robertas',
+            ];
+        Mail::to( Auth::user()->email)->send(new NewAdvert($data));
 
         }else{
             return 'no permission';

@@ -13,7 +13,7 @@
             <div class="row">
 
                 <div class="col-md-8">
-                    <img class="img-fluid" src="http://gunia.ga/laravel/projectlaravel/public/images/{{$profile->image}}" alt="">
+                    <img class="img-fluid" src="http://194.5.157.99/laravel/projectlaravel/public/images/{{$profile->image}}" alt="">
                 </div>
 
                 <div class="col-md-4">

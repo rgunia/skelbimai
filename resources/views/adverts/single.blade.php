@@ -11,7 +11,7 @@
 {{--                    du--}}
                     <div >
 {{--                        per du--}}
-                        <div class="card-header h5">
+                        <div class="card-header h5" style="color: #2CB2BC;">
                             @if($advert->category->id == 100 || $advert->category->id == 101)
                                 @foreach($attributesValue as $attributeValue)
                                      @if($attributeValue->attribute_id == 33)
@@ -38,19 +38,20 @@
                             <a href="{{route('advert.edit', $advert->id)}}"  class="btn btn-primary btn-lg btn-block mb-2"> Edit Advert </a>
                         @endif
 
-                        <div class="d-flex bd-highlight">
+                        <div class="d-flex bd-highlight pb-3">
 
                             {{--attributes pirmas--}}
 
-                            <div class="container bg-white rounded mt-1">
-                                <hr>
+                            <div class="container rounded mt-1">
+                                <hr class="bg-white">
                                 <div class="d-block d-flex bd-highlight h4 text-info ">
-                                    <div class="p-2 flex-fill bd-highlight">Kaina:</div>
+                                    <div class="p-2 flex-fill bd-highlight blue-text" style="color: white;">Kaina:</div>
                                     <div class="p-2 flex-fill bd-highlight">{{$advert->price}}€</div>
                                 </div>
-                                <hr>
+                                <hr class="bg-white">
 
-                            <div class="d-flex bd-highlight">
+
+                                <div class="d-flex bd-highlight">
 {{--                                lable--}}
                                 <div class="w-100" >
                                 @foreach($attributesValue as $attributeValue)
@@ -93,12 +94,13 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <hr>
 
 {{--                            komentarai--}}
                             <div class="d-flex bd-highlight mt-5">
-                                <div class="h6">Komentaras:</div>
-                                <div style="width: 100%" class="pl-2"> <hr> </div>
+                                <div class="h6" style="color: #2CB2BC;">Komentaras:</div>
+                                <div style="width: 100%" class="pl-2">
+                                <hr class="bg-white">
+                                </div>
 
                             </div>
                             <div>
@@ -107,8 +109,10 @@
 
 {{--                                Pardavėjo kontaktai--}}
                             <div class="d-flex bd-highlight mt-5">
-                                <div class="h6">Kontaktai:</div>
-                                <div style="width: 100%" class="pl-2"> <hr> </div>
+                                <div class="h6" style="color: #2CB2BC;">Kontaktai:</div>
+                                <div style="width: 100%" class="pl-2">
+                                <hr class="bg-white">
+                                </div>
 
                             </div>
                             <div>
@@ -129,8 +133,7 @@
                     </div>
 
 {{--comments--}}
-
-                    <div class="card-body  mt-2 rounded bg-white">
+                    <div id="comment-section" class="card-body  mt-2 rounded" style="display: none">
                         <div class="card-header comment-bg rounded">Comments</div>
                         <div class="card-body">
                             @role('admin')
@@ -142,7 +145,7 @@
                           </form>
                             @endrole
                         </div>
-                        <div class="card-body mt-1 ">
+                        <div class="card-body mt-1">
                             @foreach($comments as $comment)
                             <div class="rounded border border-info mb-1">
                                 <div class="card-header comment-bg rounded" >{{$comment->user->name}}
@@ -165,11 +168,18 @@
                         </div>
                 </div>
 
-                <div class="commertial rounded mr-3">
-                    C<br>O<br>M<br>M<br>E<br>R<br>T<br>I<br>A<br>L<br>
-                </div>
-
             </div>
         </div>
     </div>
+        </div>
+    </div>
+    <button id="comment-button" class="btn btn-secondary button-css" style="display: block; width: 200px; margin: 0 auto; text-align: center; color: white; font-weight: bolder;">Comments</button>
+
+    <script>
+        $(document).ready(function(){
+            $("#comment-button").click(function(){
+                $("#comment-section").toggle();
+            });
+        });
+    </script>
 @endsection

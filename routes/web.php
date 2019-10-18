@@ -56,6 +56,8 @@ Route::post('/advert/createsteptwo', 'AdvertController@createStepTwo')->name('ad
 
 //Axaj
 Route::post('/ajaxModelResponse', 'AjaxController@carModelResposne')->name('ajax.carmodelresponse');
+Route::post('/ajaxSearchMenu', 'AjaxController@searchMenu')->name('ajax.searchMenu');
+Route::post('/ajaxSearchBlock', 'AjaxController@searchBlock')->name('ajax.searchBlock');
 
 
 Route::resource('home', 'HomeController');
